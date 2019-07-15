@@ -16,4 +16,42 @@ SELECT logs.USER_IDX, logs.DEVICE, logs.LOGIN_FLAG, logs.LOGIN_TYPE,logs.IN_TIME
 //join idx가 같고 STAY_TIME_SEC값이  0이 아닌것
 SELECT users.IDX, logs.DEVICE, logs.LOGIN_FLAG, logs.LOGIN_TYPE,logs.IN_TIME,logs.OUT_TIME,logs.STAY_TIME_SEC, users.USER_NICK FROM SM_LOGS AS logs RIGHT JOIN SM_USERS AS users ON logs.USER_IDX = users.IDX where logs.STAY_TIME_SEC != 0 ORDER BY users.IDX desc
 
+//날짜를 비교해서 나온값을 분,초, 시간등으로 변경
+
+1. 날짜차이 계산: DATEDIFF(expr1, expr2)
+
+
+1
+SELECT DATEDIFF('2016-04-20','2016-04-01') AS DiffDate
+cs
+  결과값: 19
+
+
+
+2. 시간차이 계산: TIMESTAMPDIFF(시간표현단위, 시작체크시간, 종료체크시간)
+
+
+1
+2
+SELECT TIMESTAMPDIFF(minute, '2016-04-20 01:01', '2016-12-31 23:59') AS time_diff;
+ 
+Colored by Color Scripter
+cs
+  결과값: 368578(분)
+
+  시간표현단위: second, minute, hour, day, week, month, quarter, year
+
+
+
+그런데 위와 같이 하면 문자열을 바로 계산하는 것으로.. 최대 1분까지 차이가 날 수 있다.
+
+따라서 아래와 같이 DATE 포멧으로 변경 후에 적용하면 더욱 더 정확합니다.
+
+
+
+3. 문자열에서 날짜형으로 데이터 전환: date_format
+
+SELECT TIMESTAMPDIFF(minute, date_format('2016-04-20 01:01', '%Y-%m-%d %H:%i'), date_format('2016-12-31 23:59', '%Y-%m-%d %H:%i')) AS time_diff;
+
+
 
