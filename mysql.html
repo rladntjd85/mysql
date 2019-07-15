@@ -1,0 +1,19 @@
+//날짜 검색
+select * from SM_USERS where REG_DATE between '2019-06-27 00:00:00' and '2019-07-12 23:59:59' group by IDX
+
+//sum 그룹화
+select USER_IDX, sum(DEVICE) from SM_LOGS group by USER_IDX
+
+//count 
+SELECT count(*) cnt FROM `SM_LOGS` WHERE 1
+
+//join
+SELECT logs.USER_IDX, logs.DEVICE, logs.LOGIN_FLAG, logs.LOGIN_TYPE,logs.STAY_TIME_SEC, users.USER_NICK FROM SM_LOGS AS logs LEFT JOIN SM_USERS AS users ON logs.USER_IDX = users.IDX ORDER BY `USER_IDX` desc
+
+//join where문
+SELECT logs.USER_IDX, logs.DEVICE, logs.LOGIN_FLAG, logs.LOGIN_TYPE,logs.IN_TIME,logs.OUT_TIME,logs.STAY_TIME_SEC, users.USER_NICK FROM SM_LOGS AS logs LEFT JOIN SM_USERS AS users ON logs.USER_IDX = users.IDX where logs.STAY_TIME_SEC != 0 ORDER BY `USER_IDX` desc
+
+//join idx가 같고 STAY_TIME_SEC값이  0이 아닌것
+SELECT users.IDX, logs.DEVICE, logs.LOGIN_FLAG, logs.LOGIN_TYPE,logs.IN_TIME,logs.OUT_TIME,logs.STAY_TIME_SEC, users.USER_NICK FROM SM_LOGS AS logs RIGHT JOIN SM_USERS AS users ON logs.USER_IDX = users.IDX where logs.STAY_TIME_SEC != 0 ORDER BY users.IDX desc
+
+
